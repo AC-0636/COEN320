@@ -1,41 +1,52 @@
 #include <iostream>
-#include <math.h>
-#include <chrono>
+#include <cmath>
 #include <thread>
+#include <vector>
 #include "TestCase.h"
 #include "Airplane.h"
-
-#define update_view 5
-
+#define MaxInput 50
 using namespace std;
 
-//thread 1 for plan view display, update every 5s
-//thread 2 for log file output every 60s
-//thread 3 for safety alarm
-//thread 4 for ATC command
 
+TestCase InputArray;
+vector<Airplane> listOfAirplane;
 
-void timer_start(function<void(void)> func, unsigned int interval)
-{
-      while (true)
-      {
-          func();
-          this_thread::sleep_for(chrono::milliseconds(interval));
-      }
+void dummy2(Airplane plane) {
+	plane.getPosition();
+	/*if ((plane.X < 0) || (plane.X > 528000) || (plane.Y < 0) || (plane.Y > 528000) || (plane.Z < 15000) || (plane.Z > 40000))
+	{
+		cout << "Airplane " << plane.ID << " leave the airspace." << endl;
+	}*/
 }
 
-void print_plan()
+void getInputFile()
 {
-	cout<<"update view every 5s" <<endl;
-}
+	
+	/*for (int i = 0; i < sizeof(InputArray.airplane_schedule); i ++)
+	{
+		cout << InputArray.airplane_schedule[i] << " " << endl;
+	}*/
 
-void history_log()
-{
+	for (int i = 0; i < sizeof(InputArray.airplane_schedule); i=i+8)
+	{
+		Airplane airplane((InputArray.airplane_schedule[i]),(InputArray.airplane_schedule[i+1]),(InputArray.airplane_schedule[i+2]),
+			(InputArray.airplane_schedule[i+3]),(InputArray.airplane_schedule[i+4]),(InputArray.airplane_schedule[i+5]),(InputArray.airplane_schedule[i+6]),
+			(InputArray.airplane_schedule[i+7]));
+		listOfAirplane.push_back(airplane);
+	}
 
+	
 }
 
 int main()
 {
-	timer_start(print_plan,5000);
-	while (true);
+	getInputFile();
+	thread t1(dummy2,(listOfAirplane[0]));
+	t1.join();
+	//t2.join();
+
+	system("pause");
+	//return;
 }
+
+
