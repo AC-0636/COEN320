@@ -29,23 +29,37 @@ public:
 	}
 
 
+
 	void getPosition() {
 		int entryTime = Entry_timE;
 		int initialX = X;
 		int initialY = Y;
 		int initialZ = Z;
-		for (int t_clock = 0; t_clock < 100; t_clock++) 
+		int checkOut = 0;
+		for (int t_clock = 0; t_clock < 1000; t_clock++) 
 		{
-			if (entryTime <= t_clock) 
+			if ((entryTime <= t_clock) && (checkOut == 0)) 
 			{
 				X = speed_X * (t_clock - entryTime) + initialX;
 				Y = speed_Y * (t_clock - entryTime) + initialY;
 				Z=initialZ;// when the plane enters the space, it maintains its altitude (page 4 of project.pdf)
 				//if (((0 <= X) && (X <= 20)) && ((0 <= Y) && (Y <= 20)) && ((0 <= Z) && (Z <= 20)))
 				if (((X>=0)&&(X<=528000)) && ((Y >= 0)&&(Y <= 528000)) && ((Z>=10000)&&(Z <= 40000)))
-				{	cout << endl;
-					cout << "Time (" << t_clock << "): The plan " << ID << " is at (" << X << " , " << Y << " , " << Z << ")";
+				{	
+					cout << endl;
+					cout << "Time (" << t_clock << "): The plane " << ID << " is at (" << X << " , " << Y << " , " << Z << ")";
 					Sleep(500);
+					//check if the plane will leave in the next upadate
+					X = speed_X * (t_clock - entryTime+1) + initialX;
+					Y = speed_Y * (t_clock - entryTime+1) + initialY;
+					Z = initialZ;
+					if (((X < 0) || (X > 528000)) || ((Y < 0) || (Y > 528000)) || ((Z < 10000) || (Z > 40000)))
+					{
+						cout << endl;
+						cout << "Airplane " << ID << " leave the airspace." << endl;
+						checkOut = 1;
+						Sleep(500);
+					}
 				}
 			}
 			else
