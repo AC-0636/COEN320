@@ -9,13 +9,13 @@
 //create comm class that generates 2 threads... one for comm_in -> scanf and one for comm_out printf (PRINT A MENU!)
 //encapsulate display manager, radar in one thread each
 //in comm_in send commands to airplanes -> add airplanes METHOD (easy) Holding Pattern (HARD)
-//create collision detection method in ATC system
+//create collision detection method in ATC system DONE - EXCEPT COMMUNICATE TO COMM_SYSTEM
 //all these systems use the trackerfile. trackerfile can only be modified by one job at the time
 //for each job, with its timer, if the time it took to do the job is longer than x milliseconds (trackerfile was used by other thread hence delaying the current job...) then send warning
 //log data to a file (do that in the ATC main system)
 //for the comm system : WE CREATE A CHANNEL In the COMM SYSTEM (ChannelCreate). IN EACH AIRPLANE - WE INSTANTIATE CLIENT with COnnectAttach(). The server is the COMM SYSTEM. he will see what to do with messages
 
-
+//ALSO CONSIDER RUNNING THE CODE FROM THE SHELL COMMAND LINE...
 
 
 //printf

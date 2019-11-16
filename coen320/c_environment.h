@@ -23,6 +23,7 @@ public:
 	c_environment(TestCase test_);
 	~c_environment();
 
+	//instead of update must be environment thread...
 	void update(double timeframe);
 
 	std::vector<c_airplane*> get_airplanes_env();

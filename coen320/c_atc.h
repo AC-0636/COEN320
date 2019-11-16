@@ -11,21 +11,21 @@
 #include <inttypes.h>
 #include <sys/syspage.h>
 
+//for pow()
+#include <math.h>
+//calls for system... on neutrino the sh command is "clear"
+#include <stdlib.h>
 //printf
 #include <stdio.h>
 
 #include <vector>
 #include <algorithm> //for sorting purpose
 
+#include "s_tracker.h"
+
 #include "c_radar.h"
 #include "c_environment.h"
 #include "c_airplane.h"
-
-//main tracker structure
-//access to tracker MUST remain between mutexes
-struct tracker {
-	std::vector<c_airplane*> tracked_airplanes;
-};
 
 class c_atc {
 
@@ -38,11 +38,15 @@ public:
 
 	void draw_gui();
 
+	//initiate radar before using it else segfault... for now
 	void init_radar(c_environment* env_);
 
 private:
+	//called in thread internally only...
+	void run_collision_detection();
 
-	tracker* trackfile;
+	//send the trackfile to the radar so he can modify it
+	s_tracker* trackfile;
 
 	bool running;
 

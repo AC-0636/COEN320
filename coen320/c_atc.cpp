@@ -14,7 +14,7 @@ c_atc::c_atc() {
 
 
 	printf("\nInitializing Tracker...\n");
-	trackfile = new tracker();
+	trackfile = new s_tracker();
 
 	radar = 0; //initialize with init_radar(env_);
 
@@ -30,6 +30,8 @@ c_atc::~c_atc() {
 }
 
 bool c_atc::run() {
+
+	//here just run its own timer... the modules are runned in their init... or maybe just call logging_system...
 
 	start_cycle = ClockCycles();
 
@@ -56,9 +58,14 @@ bool c_atc::run() {
 void c_atc::init_radar(c_environment* env_) {
 
 	radar = new c_radar(env_);
+
+	//create thread here and scan();
 }
 
 void c_atc::draw_gui() {
+	//according to qnx... the system from stdlib
+	//hihi hi
+	//system("vi");
 	printf("\n|------------------------------------------------------------|\n");
 	//for every row we check if there is a plane on the x and draw them with printf
 	for (int i = 20; i > 0; i--) { //10
@@ -107,4 +114,36 @@ void c_atc::draw_gui() {
 		printf("|\n");
 	}
 	printf("|------------------------------------------------------------|\n");
+}
+
+//15/11/2019
+//very simple system... no need for sweep and pruning or complex collision detection...
+//simply verify for all planes in the sector and check their distance difference...
+//in a circle, of X km... send message to communication system c_communication_system
+void c_atc::run_collision_detection() {
+
+	//minimal distance trigger_detection... is a radius...
+	float minimal_distance_trigger = 5; //km
+
+	//dont forget to add mutex because it is gonna use the trackfile...
+	int num_tracked_airplanes = trackfile->tracked_airplanes.size();
+	for (int i = 0; i < num_tracked_airplanes; i++) {
+		for (int j = 0; j < num_tracked_airplanes; j++) {
+
+			//airplane i
+			float xi = trackfile->tracked_airplanes[i]->get_x();
+			float yi = trackfile->tracked_airplanes[i]->get_y();
+			float zi = trackfile->tracked_airplanes[i]->get_z();
+
+			//airplane j
+			float xj = trackfile->tracked_airplanes[j]->get_x();
+			float yj = trackfile->tracked_airplanes[j]->get_y();
+			float zj = trackfile->tracked_airplanes[j]->get_z();
+
+			float distance = pow(xi - xj, 2) + pow(yi - yj,2) + pow(zi - zj,2);
+			if (distance <= minimal_distance_trigger) {
+				//trigger collision system -> send message... the communication system will handle dispatching the commands to the fuckers
+			}
+		}
+	}
 }
