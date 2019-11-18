@@ -1,0 +1,85 @@
+///////other note
+- no need to update z, plane stay in the same altitude once it enter the airspace(p4)
+- plane_id = -1 -> unknown? (p5)
+-output log file
+///////////////
+
+
+///radar//
+- show the airspace (p5)
+command: display airspace
+  output: the airspace view
+
+- scan airspcae with given coordinate (p2)
+command: scan airspace (x,y,z)
+  arguement: x,y,z
+  output: "plane_id at (x,y,z)" or "no plane at (x,y,z)"
+
+//end radar//
+
+
+////operator/////
+///general operation//
+- show plane status (p3/p6 current position&velocity)
+command: show plane_id status
+	argurment: plane_id
+	output: plane_id, x,y,z, speed_x,speed_y,speed_z
+
+
+- add an aircraft object (p6)
+command: add aircraft plane_id, speed_x,speed_y,speed_z,x,y,z,entrytime
+  arguement: plane_id, speed_x, speed_y, speed_z,x,y,z,entrytime
+  output: "plane_id added"
+
+- remove an aircraft object (p6)
+command: delete aircraft plane_id
+  arguement: plane_id
+  output: "plane_id deleted"
+
+- display data record for a given aircraft (p6)
+command: display plane_id data record
+  arguement: plane_id
+  output: data record for plane_id from entry time to current time
+
+- project plane position to current_time + n (p6)
+command: show plane_id position AddTime
+   arguement: plane_id, AddTime
+   output: plane_id, x,y,z, "at time current_time+AddTime"//x,y,z at current_time+AddTime
+///end general operation//
+
+
+//for specific plane//
+
+//use this send(R,m) for sending message to a specific plane
+/*- send message to a receiver (p6)
+command: send(R,m)
+  arguement: R,m //R=receiver, m=message
+  output:"send m to R"*/
+
+- change plane speed/path (p4)
+command: change plane_id speed_x/speed_y/speed_z to ChangeValue
+	argurment: plane_id, speed_x/speed_y/speed_z, ChangeValue
+	output: plane_id, old_speed_x/old_speed_y/old_speed_z, new_speed_x/new_speed_y/new_speed_z 
+
+- Increase plane altitude (p6)
+command: Increase plane_id altitude by ChangeValue
+  arguement: plane_id, ChangeValue (ChangeValue is a postive int)
+  output: plane_id, OldAltitude, NewAltitude = OldAltiude +ChangeValue *1000ft
+
+- Decrease plane altitude (p6)
+command: Decrease plane_id altitude by ChangeValue
+  arguement: plane_id, ChangeValue (ChangeValue is a postive int)
+  output: plane_id, OldAltitude, NewAltitude = OldAltiude -ChangeValue *1000ft
+
+- enter holding pattern (p6)
+command: plane_id enter holding pattern
+  arguement: plane_id
+  output: "plane_id enter holding pattern"
+
+- leave holding pattern (p6)
+command: plane_id leave holding pattern
+  arguement: plane_id
+  output: "plane_id leave holding pattern"
+
+
+//end operator///
