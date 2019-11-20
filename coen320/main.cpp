@@ -18,6 +18,12 @@
 //ALSO CONSIDER RUNNING THE CODE FROM THE SHELL COMMAND LINE...
 
 
+//NEW TODO
+//MAKE INTERNAL METHODS TO KILL THREAD (LIKE RADAR)
+//PASS MESSAGES FOR ALL COMMAND PROCESSING.
+//DISPATCH COMMANDS FROM ATC_RUN
+//ADD REAL TIME TIMER...
+
 //printf
 #include <stdio.h>
 
@@ -39,7 +45,7 @@ using namespace std;
 
 int main() {
 
-	printf("Welcome to ATC simulator 8000 using QNX Proprietary RTOS\n");
+	printf("\nWelcome to ATC simulator 8000 using QNX Proprietary RTOS\n");
 	printf("HOST : QNX localhost 7.0.0 x64\n\n");
 	printf("Initializing simulation environment...\n\n");
 
@@ -66,8 +72,8 @@ int main() {
 
     seconds = (double) ncycles / cps;
 
-	c_atc* atc = new c_atc();
-	atc->init_radar(env);
+	c_atc* atc = new c_atc(env);
+	//atc->init_radar(env);
 
 	//while the systems runs... proceed with simulation
 	while (atc->run()) {
@@ -77,6 +83,7 @@ int main() {
 
 		//update environment
 		env->update(seconds);
+		atc->set_env(env);
 
 	    /* snap the time again */
 	    end_cycle = ClockCycles( );
@@ -91,6 +98,8 @@ int main() {
 	}
 
 	//deallocate dynamic memory
+	delete atc;
+
 	delete env;
 
 	return 0;

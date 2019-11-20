@@ -12,7 +12,7 @@ class c_airplane {
 public :
 
 	//main constructor and destructor
-	c_airplane();
+	c_airplane(float x_, float y_, float z_);
 	~c_airplane();
 
 	//update with timeframe difference between the last time it was updated
@@ -23,9 +23,10 @@ public :
 	void set_speed_x(float speed_x_);
 	void set_speed_y(float speed_y_);
 	void set_speed_z(float speed_z_);
-	void set_x(float x_);
+	//not allowed to set airplane position directly except on instantiation... when setting, the airplane must set its target!
+	/*void set_x(float x_);
 	void set_y(float y_);
-	void set_z(float z_);
+	void set_z(float z_);*/
 
 	//this variable was given as part of the project specifications but is useless.
 	//is the plane in the TRACON? or NOT? who gives a fuck WHEN it enters? isn't the RADAR system supposed to detect it?

@@ -1,13 +1,13 @@
 #include "c_airplane.h"
 
-c_airplane::c_airplane() {
+c_airplane::c_airplane(float x_, float y_, float z_) {
 	id = 0;
 	speed_x = 0;
 	speed_y = 0;
 	speed_z = 0;
-	x = 0;
-	y = 0;
-	z = 0;
+	x = x_;
+	y = y_;
+	z = z_;
 	entry_time = 0;
 }
 
@@ -48,7 +48,7 @@ void c_airplane::set_speed_z(float speed_z_) {
 	speed_z = speed_z_;
 }
 
-void c_airplane::set_x(float x_) {
+/*void c_airplane::set_x(float x_) {
 
 	x = x_;
 }
@@ -61,7 +61,7 @@ void c_airplane::set_y(float y_) {
 void c_airplane::set_z(float z_) {
 
 	z = z_;
-}
+}*/
 
 void c_airplane::set_entry_time(float entry_time_) {
 

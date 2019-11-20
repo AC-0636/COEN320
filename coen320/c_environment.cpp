@@ -6,15 +6,14 @@ c_environment::c_environment(TestCase test_) {
 
 	//all in m
 	airspace_sealvl = 15000 * 0.3048;
-	airspace_width = 100000 * 1.60934;
+	airspace_width = 100000; //* 1.60934;
 	airspace_height = 25000 * 0.3048;
-	airspace_long = 100000 * 1.60934;
+	airspace_long = 100000; //* 1.60934;
 
 	TestCase test = test_;
 	int array_size = sizeof(test.airplane_schedule)/sizeof(int);
 
 	for (int i = 0; i < array_size; i++) {
-		c_airplane* airplane = new c_airplane();
 
 		int id = test.airplane_schedule[i];
 		float speed_x = test.airplane_schedule[i + 1];
@@ -25,21 +24,21 @@ c_environment::c_environment(TestCase test_) {
 		float z = test.airplane_schedule[i + 6];
 		float entry_time = test.airplane_schedule[i + 7];
 
+		c_airplane* airplane = new c_airplane(x, y, z);
+
 		airplane->set_id(id);
 
 		airplane->set_speed_x(speed_x);
 		airplane->set_speed_y(speed_y);
 		airplane->set_speed_z(speed_z);
-		airplane->set_x(x);
-		airplane->set_y(y);
-		airplane->set_z(z);
+
 		airplane->set_entry_time(entry_time);
 		i += 7;
 
 		airplanes.push_back(airplane);
 
-		printf("added plane id : %i to environment @ position (%.2f, %.2f, %.2f) with initial speed vector (%.2f, %.2f, %.2f).\n",
-				id, x, y, z, speed_x, speed_y, speed_z);
+		/*printf("added plane id : %i to environment @ position (%.2f, %.2f, %.2f) with initial speed vector (%.2f, %.2f, %.2f).\n",
+				id, x, y, z, speed_x, speed_y, speed_z);*/
 	}
 }
 
