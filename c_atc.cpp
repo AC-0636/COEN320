@@ -106,8 +106,8 @@ void c_atc::run_message_server() {
 		int rcvid = MsgReceive(chid,Server_Messages,sizeof(Server_Messages),NULL);
 		//printf(Server_Messages);
 
-		char holding_str[5];
-		for (int i =0;i<5;i++)
+		char holding_str[4];
+		for (int i =0;i<4;i++)
 		{
 			holding_str[i] = Server_Messages[i];
 
@@ -129,7 +129,6 @@ void c_atc::run_message_server() {
 			//fetch the latest update from the radar... (every 5 seconds the radar updates it)
 			trackfile = radar->get_trackfile();
 			comm_system->set_trackfile(trackfile);
-
 			vector<c_airplane*> tracked_airplanes = trackfile->tracked_airplanes;
 			printf("\ntotal airplanes : %i", tracked_airplanes.size());
 			printf("\n%-10s%-10s%-10s%-10s%-10s%-10s%-10s\n", "id", "x", "y", "z","speed_x","speed_y","speed_z");
@@ -153,22 +152,21 @@ void c_atc::run_message_server() {
 			//printf("COLLISION IMMINENT!!!\n");
 		}
 
-		if (strcmp(holding_str, "enter") == 0){
+		if (strcmp(holding_str, "hold") == 0){
 
-			cout << Server_Messages<<endl;
+			//cout << Server_Messages<<endl;
 			string temp_str(Server_Messages);
+			//get plane_id
 			int plane_id;
-			if (temp_str.size() ==23)
+			if (temp_str.size() == 6)
 			{
-				plane_id = stoi(temp_str.substr(22,1));
+				plane_id = stoi(temp_str.substr(5,1));
 			}
 			else
 			{
-				int num = temp_str.size() - 22;
-				plane_id = stoi(temp_str.substr(22,num));
+				int num = temp_str.size() - 5;
+				plane_id = stoi(temp_str.substr(5,num));
 			}
-			//cout <<temp_str.size()<<endl;
-			//cout <<plane_id<<endl;
 			trackfile = radar->get_trackfile();
 			comm_system->set_trackfile(trackfile);
 			vector<c_airplane*> tracked_airplanes = trackfile->tracked_airplanes;
@@ -188,73 +186,48 @@ void c_atc::run_message_server() {
 				}
 			}
 
-			float original_x = tracked_airplanes[track_file_pos] -> get_x();
-			float original_y = tracked_airplanes[track_file_pos] -> get_y();
-			float original_z = tracked_airplanes[track_file_pos] -> get_z();
-			float original_speed_x = tracked_airplanes[track_file_pos] -> get_speed_x();
-			float original_speed_y = tracked_airplanes[track_file_pos] -> get_speed_y();
-			float original_speed_z = tracked_airplanes[track_file_pos] -> get_speed_z();
-			printf("Original performance of plane %-10i\n",plane_id);
-			printf("%-10.0f%-10.0f%-10.0f%-10.0f%-10.0f%-10.0f\n", original_x,original_y,original_z,original_speed_x,original_speed_y,original_speed_z);
-			// assume original position is point 0
-			//draw square with length of 10000
-			float current_x;
-			float current_y;
-			//set point 1
-			float point1_y = original_y + 5000;
-			float point2_x = original_x + 5000;
-			while(1)
-			{
-				current_x = tracked_airplanes[track_file_pos] -> get_x();
-				current_y = tracked_airplanes[track_file_pos] -> get_y();
-
-				if (current_x <= original_x +2) // add 2 to overcome the delay of the system
-				{
-					if (current_y >= point1_y) //start from point 1 to 2
-					{
-						pthread_mutex_unlock(&printf_mutex );
-						tracked_airplanes[track_file_pos] -> set_speed_x(original_speed_x);
-						tracked_airplanes[track_file_pos] -> set_speed_y(0);
-						pthread_mutex_lock(&printf_mutex );
-					}
-					else // start from point 0 to point 1
-					{
-						pthread_mutex_unlock(&printf_mutex );
-						tracked_airplanes[track_file_pos] -> set_speed_x(0);
-						pthread_mutex_lock(&printf_mutex );
-					}
-				}
-
-					if (current_x >= point2_x)
-					{
-						if (current_y >= point1_y)
-						{
-							// from point 2 to point3
-							pthread_mutex_unlock(&printf_mutex );
-							tracked_airplanes[track_file_pos] -> set_speed_x(0);
-							tracked_airplanes[track_file_pos] -> set_speed_y(-original_speed_y);
-							pthread_mutex_lock(&printf_mutex );
-						}
-						else
-						{
-							//from point 3 to point0
-							pthread_mutex_unlock(&printf_mutex );
-							tracked_airplanes[track_file_pos] -> set_speed_x(-original_speed_x);
-							tracked_airplanes[track_file_pos] -> set_speed_y(0);
-							pthread_mutex_lock(&printf_mutex );
-						}
-					}
-					float x = tracked_airplanes[track_file_pos] -> get_x();
-					float y = tracked_airplanes[track_file_pos] -> get_y();
-					float z = tracked_airplanes[track_file_pos] -> get_z();
-					float speed_x = tracked_airplanes[track_file_pos] -> get_speed_x();
-					float speed_y = tracked_airplanes[track_file_pos] -> get_speed_y();
-					float speed_z = tracked_airplanes[track_file_pos] -> get_speed_z();
-					printf("info of plane %-10i\n",plane_id);
-					printf("%-10.0f%-10.0f%-10.0f%-10.0f%-10.0f%-10.0f\n", x,y,z,speed_x,speed_y,speed_z);
-			}
+			tracked_airplanes[track_file_pos] ->set_on_hold();
 
 		}
+		//unhold
+		if (strcmp(holding_str, "unho") ==0){
+			cout << Server_Messages<<endl;
+			string temp_str(Server_Messages);
+			//get plane id
+			int plane_id;
+			if (temp_str.size() == 8)
+			{
+				plane_id = stoi(temp_str.substr(7,1));
+			}
+			else
+			{
+				int num = temp_str.size() - 7;
+				plane_id = stoi(temp_str.substr(5,num));
+			}
+			trackfile = radar->get_trackfile();
+			comm_system->set_trackfile(trackfile);
+			vector<c_airplane*> tracked_airplanes = trackfile->tracked_airplanes;
+			int track_file_pos; // where the plane is in the track file list
+			//find the plane from track file
+			for (unsigned int i =0; i<tracked_airplanes.size();)
+			{
+				int find_plane = tracked_airplanes[i] ->get_id();
+				if(find_plane == plane_id)
+				{
+					track_file_pos = i;
+					i = tracked_airplanes.size()+1;
+				}
+				else
+				{
+					i++;
+				}
+			}
+			tracked_airplanes[track_file_pos] ->unset_on_hold();
+		}
+		//change altitude
+		/*if (strcmp(holding_str,"chan") ==0){
+
+		}*/
 
 		if (strcmp(Server_Messages, "exit") == 0) {
 			terminate_system = true;
