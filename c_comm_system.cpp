@@ -88,19 +88,18 @@ void c_comm_system::run_comm_system() {
 					cout << "atc_system : - show - command needs at least 1 argument." << endl;
 				}
 			}
-			else if (v[0] == "enter"){
-				if (v[1] =="holding" && v[2] == "pattern")
-				{
+			else if (v[0] == "hold"){
 					char rcvMESS[M_SIZE];
-					string str ="enter holding pattern " + v[3];
+					string str ="hold " + v[1];
 					const void * plane_id = str.c_str();
 					int replyID = MsgSend(coid,plane_id,M_SIZE,rcvMESS,sizeof(rcvMESS));
-
-				}
-				else
-				{
-					cout << "atc_system : - " << v[1] << " is not a valid argument." << endl;
-				}
+			}
+			// for unhold pattern
+			else if (v[0] == "unhold"){
+				char rcvMESS[M_SIZE];
+						string str ="unhold " + v[1];
+						const void * plane_id = str.c_str();
+						int replyID = MsgSend(coid,plane_id,M_SIZE,rcvMESS,sizeof(rcvMESS));
 			}
 			else if (v[0] == "help") {
 				cout << "commands : " << endl;
@@ -108,6 +107,7 @@ void c_comm_system::run_comm_system() {
 				cout << "set [arg1] [arg2] [arg3] - (int)airplane_id, x or y or z, int(position)" << endl; //z is altitude
 				cout << "hold [arg1] - set airplane (int)airplane_id in hold mode" << endl;
 				cout << "unhold [arg1] - set airplane (int)airplane_id in normal mode" << endl;
+				//cout << "change [arg1] altitude -change airplane (int)airplane_id altitude"<<endl;
 				cout << "add [arg1] - add plane with (int)airplane_id" << endl;
 				cout << "remove [arg1] - remove plane (int)airplane_id" << endl;
 				cout << "send [arg1] [arg2] - send message to (int)airplane_id - arg2 is one word" << endl;
