@@ -20,13 +20,12 @@
 static bool terminate_system;
 extern bool terminate_system;
 
+//for now the main mutex is called printf_mutex... even if also used for the trackerfile
 static pthread_mutex_t printf_mutex = PTHREAD_MUTEX_INITIALIZER;
-extern pthread_mutex_t printf_mutex;
+//extern pthread_mutex_t printf_mutex = PTHREAD_MUTEX_INITIALIZER;
 //this mutex is defined globally here so we can use it print or use the trackfile
-/*static std::mutex printf_mutex;
-extern std::mutex printf_mutex;
 
-static std::mutex tracker_mutex;
+/*static std::mutex tracker_mutex;
 extern std::mutex tracker_mutex;*/
 //use const std::lock_guard<std::mutex> lock(g_i_mutex);
 //g_i_mutex is automatically released when lock

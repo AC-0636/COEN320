@@ -24,7 +24,7 @@ c_environment::c_environment(TestCase test_) {
 		float z = test.airplane_schedule[i + 6];
 		float entry_time = test.airplane_schedule[i + 7];
 
-		c_airplane* airplane = new c_airplane(x, y, z);
+		c_airplane* airplane = new c_airplane(x, y, z, speed_x, speed_y, speed_z);
 
 		airplane->set_id(id);
 

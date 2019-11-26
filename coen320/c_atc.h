@@ -36,6 +36,14 @@
 #include "c_environment.h"
 #include "c_airplane.h"
 
+//logger
+#include <iostream>
+#include <fstream>
+
+//c++ 11 current time... for logger
+#include <chrono>
+#include <ctime>
+
 class c_atc {
 
 public:
@@ -90,6 +98,8 @@ private:
 
 	//send the trackfile to the radar so he can modify it
 	s_tracker* trackfile;
+	//this one is used to compare with the original... if some planes are missing that means one exited the airspace!
+	s_tracker* last_trackfile;
 
 	bool running;
 
@@ -109,7 +119,6 @@ private:
 	int chid;
 	int coid_collision;
 
-	//we dont need the display manager to be a thread because it is included in the ATC system (aka it's the main process)
 	/*std::thread radar_thread;
 	std::thread comm_thread;
 	std::thread collision_detection_thread;*/
@@ -125,6 +134,8 @@ private:
 	bool to_draw_gui;
 
 	std::vector<std::string> alert_log;
+
+	std::ofstream log_file; //default folder /tmp
 };
 
 #endif //C_ATC_H

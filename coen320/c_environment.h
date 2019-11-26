@@ -19,7 +19,7 @@ class c_environment {
 
 public:
 
-	//use a testcase to initialize the environment. WHO GIVES A FUCK?
+	//use a testcase to initialize the environment.
 	c_environment(TestCase test_);
 	~c_environment();
 

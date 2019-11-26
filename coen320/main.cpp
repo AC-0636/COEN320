@@ -24,6 +24,10 @@
 //DISPATCH COMMANDS FROM ATC_RUN
 //ADD REAL TIME TIMER...
 
+//NEW TODO 2 // 25-11-2019
+//would be cool to add reboot methods for c_comm_system, c_radar, collision and display... we could use it to safely create and delete part of the system (reboot it safely...)
+//
+
 //printf
 #include <stdio.h>
 
@@ -101,6 +105,8 @@ int main() {
 	delete atc;
 
 	delete env;
+
+	printf("\nEXIT SUCCESS...\n\n");
 
 	return 0;
 }
