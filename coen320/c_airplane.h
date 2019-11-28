@@ -38,7 +38,7 @@ public :
 	void set_z(float z_);*/
 
 	//this variable was given as part of the project specifications but is useless.
-	//is the plane in the TRACON? or NOT? who gives a fuck WHEN it enters? isn't the RADAR system supposed to detect it?
+	//is the plane in the TRACON? or NOT? isn't the RADAR system supposed to detect it?
 	void set_entry_time(float entry_time_);
 
 	//getters
