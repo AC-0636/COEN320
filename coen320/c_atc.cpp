@@ -608,7 +608,7 @@ void c_atc::run_collision_detection() {
 					float distance = sqrt(pow((xi - xj), 2) + pow((yi - yj),2) + pow((zi - zj),2));
 					//printf("%f\n", distance);
 					if (distance <= minimal_distance_trigger) {
-						//trigger collision system -> send message... the communication system will handle dispatching the commands to the fuckers
+						//trigger collision system -> send message... the communication system will handle dispatching the commands
 						//printf("PLANE %i is at %f from %i!\n", i, distance, j);
 						int id1 = tracked_airplanes[i]->get_id();
 						int id2 = tracked_airplanes[j]->get_id();
