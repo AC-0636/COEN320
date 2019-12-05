@@ -37,8 +37,7 @@ c_environment::c_environment(TestCase test_) {
 
 		airplanes.push_back(airplane);
 
-		/*printf("added plane id : %i to environment @ position (%.2f, %.2f, %.2f) with initial speed vector (%.2f, %.2f, %.2f).\n",
-				id, x, y, z, speed_x, speed_y, speed_z);*/
+		
 	}
 }
 
@@ -55,7 +54,7 @@ void c_environment::update(double timeframe) {
 
 	for (unsigned int i = 0; i < airplanes.size(); i++) {
 		airplanes[i]->update(timeframe);
-		//printf("id : %i x : %f y : %f z : %f\n", airplanes[i]->get_id(), airplanes[i]->get_x(), airplanes[i]->get_y(),airplanes[i]->get_z());
+		
 	}
 }
 
