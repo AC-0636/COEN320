@@ -35,7 +35,7 @@ public:
 
 private:
 
-	//all airplanes... that are IN or OUT of the airspace... it just simulates the environment. DO YOU GET IT?
+	//all airplanes... that are IN or OUT of the airspace... it just simulates the environment.
 	std::vector<c_airplane*> airplanes;
 
 	int airspace_sealvl; //ft
