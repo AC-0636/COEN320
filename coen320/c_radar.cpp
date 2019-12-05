@@ -105,7 +105,4 @@ void c_radar::scan() {
 	return;
 }
 
-/*std::vector<c_airplane*> c_radar::get_last_hit_list() {
 
-	return hit_list;
-}*/
