@@ -7,7 +7,7 @@ c_atc::c_atc(c_environment* env_) {
 
 	env = env_;
 
-	//const std::lock_guard<std::mutex> lock(printf_mutex);
+	
 
 	printf("Initializing ATC system...\n");
 
@@ -53,8 +53,7 @@ c_atc::c_atc(c_environment* env_) {
 
 	comm_system = new c_comm_system(chid, trackfile);
 
-	/*comm_thread = thread(&c_comm_system::run_comm_system, comm_system);
-	collision_detection_thread = thread(&c_atc::run_collision_detection, this);*/
+	
 
 	//gui_thread = thread(&c_atc::draw_gui, this);
 	pthread_create(&message_server_thread, NULL, &c_atc::static_run_message_server, this);
@@ -152,10 +151,10 @@ void c_atc::run_message_server() {
 		//ADD HASH VALUE TO AIRPLANE TO PROTECT IT FROM ADS-B HIJACKING...
 		//PREPARE HOLD AND UNHOLD METHODS... OK
 		//IN ALERT LOG, OUTPUT WHEN PLANE EXIT...
-		//MAYBE DO ADD/REMOVE AIRPLANE? OK
+		
 		//CHANGE CLOCK TO REAL TIME CLOCK
 
-		//LATEST TODO: add ATC LOG and save it (/tmp/)
+		
 		//make change altitude
 
 		if (strcmp(command_items[0].c_str(), "altitude") == 0) {
