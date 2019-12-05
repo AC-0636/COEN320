@@ -43,7 +43,7 @@ void c_airplane::update(double timeframe) {
 	//ajust altitude with target altitude...
 	if (is_changing_altitude == true) {
 		float alt_diff = target_altitude - z;
-		if (abs((int)alt_diff) < 50) { //about 50m difference from target altitude... or whatever
+		if (abs((int)alt_diff) < 50) { //about 50m difference from target altitude
 			is_changing_altitude = false;
 			speed_z = 0;
 		}
@@ -68,7 +68,7 @@ void c_airplane::update(double timeframe) {
 			float target_y = unit_new_y * square_length + y;
 			//float target_z = unit_new_z;
 
-			//airplane_log.push_back("Plane is on hold, recalculating hold target distance");
+			
 
 			set_current_target(target_x,target_y,z);
 		}
